@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Mete Laskin - rakennuksen koko</legend>
+            <div class ="row">
+              <div class="col-sm-4">{{ mete_form.pinta_ala|as_crispy_field }}</div>
+              <div class="col-sm-4">{{ mete_form.seinä_ala|as_crispy_field }}</div>
+              <div class="col-sm-4">{{ mete_form.ikkuna_ala|as_crispy_field }}</div>
+            </div>
+            <div class ="row">
+              <div class="col-sm-4">{{ mete_form.ovet_ala|as_crispy_field }}</div>
+              <div class="col-sm-4">{{ mete_form.yläpohja_ala|as_crispy_field }}</div>
+              <div class="col-sm-4">{{ mete_form.kayttotarkoitus|as_crispy_field }}</div>
+            </div>
+            <div class ="row">
+              <div class="col-sm-4">{{ mete_form.rakennusvuosi|as_crispy_field }}</div>
+              <div class="col-sm-4">{{ mete_form.kerrosmaara|as_crispy_field }}</div>
+            </div>
+          </fieldset>
+          
+          <div class="form-group">
+              <button class="btn btn-primary" type="submit" name="action" value = "Update">Päivitä</button>
+              <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+              <button class="btn btn-outline-info" type="submit" name="action" value = "Apartment">Arvioi pinta-alat</button>
+          </div>
+      </form>
+    </div>
+{% endblock content %}

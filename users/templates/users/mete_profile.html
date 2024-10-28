@@ -1,0 +1,68 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-8">Mete Calculator base values</legend>
+              <div class="row"><b>Rakennustiedot</b></div>
+              <div class="row">
+                <div class="col-sm-4" >{{mete_form.alue|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.kayttotarkoitus|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.kerrosmaara|as_crispy_field }}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">{{mete_form.pinta_ala|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.rakennusvuosi|as_crispy_field }}</div>
+              </div>
+              <div class="row"><b>Lämmöntuotantotiedot</b></div>
+              <div class="row">
+                <div class="col-sm-4">{{mete_form.lammontuotto|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lammonjako|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.varaavatulisija|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.tulisija_lkm|as_crispy_field }}</div>
+              </div>
+              <div class="row"><b>Sisäilman lämmitys</b></div>
+              <div class="row">
+                <div class="col-sm-4">{{mete_form.lampopumppu|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.ilmalampopumppu|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.iv_tapa|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.pv_vko|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.h_pv|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lto|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.sisalampo|as_crispy_field }}</div>
+              </div>
+              <div class="row"><b>Lämpimän käyttöveden tiedot</b></div>
+              <div class="row">
+                <div class="col-sm-4">{{mete_form.lkv_lammitys|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lkv_tila|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lkvputken_eristys|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lkv_kierto|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lkv_kiertoeriste|as_crispy_field }}</div>
+              </div>
+              <div class="row"><b>Energiankulutustiedot</b></div>
+              <div class="row">
+                <div class="col-sm-4">{{mete_form.sahkokWh|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.lampokWh|as_crispy_field }}</div>
+                <div class="col-sm-4">{{mete_form.vesikWh|as_crispy_field }}</div>
+              </div>
+              <div class="row">
+              </div>
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-primary" type="submit" name="action" value = "Update"> Update</button>
+              <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+              <!--<button class="btn btn-outline-secondary" type="submit" name="action" value = "Energy">Estimate energy</button>-->
+          </div>
+        </form>
+      
+  </div>
+{% endblock content %}

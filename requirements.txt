@@ -1,0 +1,17 @@
+asgiref
+certifi
+django-crispy-forms
+distlib
+Django
+django-choices-field
+django-debug-toolbar
+filelock
+Pillow
+pipenv
+platformdirs
+setuptools
+sqlparse
+typing_extensions
+tzdata
+virtualenv
+
