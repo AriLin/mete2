@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<article class="media content-section">
+    <div class="media-body ">
+        <h5>Tervetuloa Maaseudun vähähiiliset energiaratkaisut (METE2) –hankkeen laskurin nettisivulle!</h5>
+        <p>Hankkeessa kehitetään investointilaskuri, joka on suunniteltu helpottamaan palveluyrityksiä uusiutuvan energiantuotannon mahdollisuuksien arvioinnissa. Laskurin avulla yritykset voivat vertailla eri energiantuotantotapojen taloudellista kannattavuutta ja saada konkreettista tietoa investointipäätösten tueksi.
+            Hankkeen päätavoitteena on edistää uusiutuvan energian käyttöä ja tukea palveluyrityksiä tekemään kestäviä ratkaisuja tulevaisuuden energiantuotannon tarpeisiin. Laskuri tarjoaa laskelmat investointien kustannuksista, takaisinmaksuajasta sekä mahdollisista säästöistä.
+            <h6>Tutustu laskuriin ja ota askel kohti vihreämpää tulevaisuutta!</h6>
+        </p>
+        <p><a class="nav-item nav-link" href="{% url 'login' %}" target="_blank"><b>METE2 @ HAMK</b></a></p>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body ">
+        <h6>METE2 on</h6>
+        <p>Hämeen ELY- keskuksen rahoittama hanke (1.6.2022 - 31.10.2024), jossa on tavoitteena siirtää tietoa ja osaamista energiatehokkuudesta ja uusiutuvan energian käyttömahdollisuuksista SOTE- ja palvelualan mikro- ja pienyrityksille Hämeessä. Lisäksi tarkoituksena on rakentaa energiatehokkuustyökalu kaikkien yrityksien käyttöön. </p>
+        <a class="nav-item nav-link" href="https://www.maaseudunmete.fi/" target="_blank"><b>Lue lisää METE2 hankkeesta</b></a></p>        
+    </div>
+</article>
+
+{% endblock content %}

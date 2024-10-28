@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <h1>Käyttötiedot</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Käyttäjän muokattavissa olevat tiedot</legend>
+                <input type="hidden" id="id_user" name="user" value="{{user.user_id}}">
+                <div class="row">
+                    <div class="col-sm-4"> {{ form.kul_h_pv|as_crispy_field}}</div>
+                    <div class="col-sm-4"> {{ form.kul_pv_vko|as_crispy_field}} </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"> {{ form.val_h_pv|as_crispy_field}} </div>
+                    <div class="col-sm-4"> {{ form.val_pv_vko|as_crispy_field}} </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" name="IV" value="POST">Talleta</button>
+                <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+                <button class="btn btn-outline-secondary float-right" type="button" name="Muokkaa" value="EDIT">Dummy</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

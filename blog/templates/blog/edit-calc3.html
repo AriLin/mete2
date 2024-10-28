@@ -1,0 +1,49 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <h1>Lämpöpumppulaskintiedot</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <div class="border-bottom mb-4">ILP Laskentaan tarvittavat lähtötiedot</div>
+                <input type="hidden" id="id_user" name="user" value={{user.pumppu.user_id}}>
+                <div class="row">
+                    <div class="col-sm-4">{{form.ilp_maara|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_teho|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_kulutuskWh|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">{{form.ilp_pinta_ala|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_vuosituotto|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_scop|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">{{form.ilp_hankintatuki|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_tukiprosentti|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_lainamaara|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">{{form.ilp_laina_aika|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_lainakorko|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.ilp_huolto|as_crispy_field }}</div>
+                </div>
+                <div class="border-bottom mb-4">VILP Laskentaan tarvittavat lähtötiedot</div>
+                <div class="row">
+                    <div class="col-sm-4">{{ form.vilp_maara| as_crispy_field}}</div>
+                    <div class="col-sm-4">{{ form.vilp_teho| as_crispy_field}}</div>
+                </div>
+                <div class="border-bottom mb-4">MLP Laskentaan tarvittavat lähtötiedot</div>
+                <div class="row">
+                    <div class="col-sm-4">{{ form.mlp_maara| as_crispy_field }}</div>
+                    <div class="col-sm-4">{{ form.mlp_teho| as_crispy_field}}</div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" name="Pumppu" value="POST">Talleta</button>
+                <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+                <button class="btn btn-outline-secondary float-right" type="button" name="Muokkaa" value="EDIT">Dummy</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,125 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load Laskuri_2 %}
+{% load calc_1 %}
+<h1>Ilmanvaihto (calc_iv)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+ <article class="media content-section">
+    <div class="media-body">
+        <table cellpadding="5">
+            <caption style ="caption-side: top;">
+                Values modified: {{ user.profile.date_modified }} <br>
+                <a href="{% url 'def-calc_iv_edit' %}"> [Change IV calculation BASE values]</a>
+                <p></p>            
+            </caption>
+            <tr>
+                <th colspan="2">Käyttäjän valinnat</th>
+            </tr>
+            <tr>
+                <td style = "text-align: right">
+                    IV tapa: <br>
+                    IV päällä:<br>
+                    <br>
+                    LTO käytössä: <br>
+                </th>
+                <td style = "text-align: left">
+                    {{ user.profile.iv_tapa | ilmanvaihto_ }}<br>
+                    {{ user.profile.h_pv}} h/pv<br>
+                    {{ user.profile.pv_vko}} pv/vko<br>
+                    {{ user.profile.lto | mete_bool_}}
+                </td>
+            </tr>
+        </table>
+        <p></p>
+        <table cellpadding="5">
+        <tr>
+            <th colspan="2">Laskurin oletusarvot</th>
+        </tr>
+        <tr>
+            <td style = "text-align: right">
+                Poistoilmavirta: <br>
+                Tuloilmavirta: <br>
+                Korvausilma: <br>
+                IV&nbsp;koneen&nbsp;ominaissähköteho <br>
+                Sisäänpuhallus lämpö <br>
+                Lämpötilan nousu <br>
+                Käyntiaikasuhde pv: <br>
+                Käyntiaikasuhde vko: 
+            </td>
+            <td style = "text-align: left">
+                {{ user.profile | Poistoilmavirta }} dm<sup>3</sup>/s<br>
+                {{ user.profile | Tuloilmavirta }} dm<sup>3</sup>/s<br>
+                {{ user.profile | Korvausvirta }} dm<sup>3</sup>/s<br>
+                {{ user.profile | SPF_data }} kW/(m<sup>3</sup>/s)<br>
+                {{ user.profile | Tsp_temp }} °C<br>
+                {{ user.profile | D_puhallus }} °C<br>
+                {{ user.profile | Kayntiaika_pv }} <br>
+                {{ user.profile | Kayntiaika_vko }}
+            </td>
+    </tr>
+    </table>
+    </div>
+    <img src="/mete/media/Talo1.jpg" alt="Example house" style="float:right">
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <table cellpadding="5" align="center">
+            <tr>
+            <th colspan="2"> Ilmanvaihdon välitulos </th>
+            </tr>
+            <tr>
+            <td align="right"> Ilmanvaihdon sähkönkulutus:<br>
+                Ilmanvaihdon lämmitysenergia:
+            </td>
+            <td align="left"> {{ user.profile | IV_sahko }} kWh/a <br>
+                {{ user.profile | IV_lampo }} kWh/a</td>
+            </tr>
+
+        </table>
+    </div>
+</article>
+<!--
+<article class="media content-section">
+    <div class="media-body">
+        <h4>Energialaskelmat:</h4>
+        <table style="border:hidden;">
+            <tr><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Kokonaiskulutukset</b>
+                    </caption>            
+                        <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus ilman LTO: {{user.profile | kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi: {{user.profile | performanssi}}kWh/a/m<sup>2</sup></td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus LTOn kanssa: {{user.profile | lto_kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi:  {{user.profile | performanssi2}}kWh/a/m<sup>2</sup></td></tr>
+                </table>
+            </td><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Ergiakuormat</b>
+                    </caption>            
+                        <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ulkoseinä:</td><td style="border:hidden;text-align: right;">{{user.profile | ulkoseina}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Yläpohja;</td><td style="border:hidden;text-align: right;">{{user.profile | yläpohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Alapohja:</td><td style="border:hidden;text-align: right;">{{user.profile | alapohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ikkunat:</td><td style="border:hidden;text-align: right;">{{user.profile | ikkunat}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ovet:</td><td style="border:hidden;text-align: right;">{{user.profile | ovet}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">  = Vaippa:</td><td style="border:hidden;text-align: right;">{{user.profile | kaikki}}</td><td>kWh/a</td></tr>
+                <tr><td>-</td><td>-</td><td>-</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Aurinkosäteily:</td><td style="border:hidden;text-align: right;">{{user.profile | auringon_sateily}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämpö ihmisistä:</td><td style="border:hidden;text-align: right;">{{user.profile | ihmislampo}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämmön  nettotarve:</td><td style="border:hidden;text-align: right;">{{user.profile | lampoenergia}}</td><td>kWh/a</td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+</article>
+-->
+{% endblock content %}

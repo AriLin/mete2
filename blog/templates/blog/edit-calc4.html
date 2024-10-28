@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <h1>Valasinlaskuritiedot</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Legend</legend>
+                <input type="hidden" id="id_user" name="user" value="1">{{user.valaisin.user}}
+                <ul>
+                <li>Valaisimien määrä: {{ form.maara }}</li>
+                <li>Yhden valaisimnen teho:{{ form.teho}}</li>
+                </ul>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" name="Aurinko" value="POST">Talleta</button>
+                <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+                <button class="btn btn-outline-secondary float-right" type="button" name="Muokkaa" value="EDIT">Dummy</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

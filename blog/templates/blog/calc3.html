@@ -1,0 +1,88 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load calc_3 %}
+<h1>Lämpöpumppu mitoitukset (calc3)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+        <ul>
+        {% if user.pumppu.user %}
+        <li>Talletettu ILP tieto: {{user.pumppu.ilp_maara}} kpl a´ {{user.pumppu.ilp_teho}} W , kulutus: {{user.pumppu.ilp_kulutuskWh}} kWh/a</li>
+        <li>Talletettu VILP tieto: {{user.pumppu.vilp_maara}} kpl a´ {{user.pumppu.vilp_teho}} W </li>
+        <li>Talletettu MLP tieto: {{user.pumppu.mlp_maara}} kpl, {{user.pumppu.mlp_teho}} W</li>
+        {% else %}
+        Perustiedot puuttuu -> <a class="nav-item nav-link" href="{% url 'edit-calc3' %}">PÄIVITÄ TIETOSI</a>
+        {% endif %}
+        </ul>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        {% if user.aurinko.user %}
+            <h4>ILP: Energialaskelmat:</h4>
+            <div class="row">
+                <div class="col-sm-4">Tuotto: {{user.pumppu|nettotuotto}} kWh/a</div>
+                <div class="col-sm-4">Sähkön käyttö: {{user.pumppu|sahkonkaytto}} kWh/a</div>
+                <div class="col-sm-4">Nettosäästö: {{user.pumppu|nettosaasto}} kWh/a</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Max_tuotto: {{user.pumppu|maxtuotto}} kWh/a</div>
+                <div class="col-sm-4">Yhden ILPn osuus: {{user.pumppu| uno_kattavuus}} %</div>
+                <div class="col-sm-4">ILP kattavuus: {{user.pumppu| all_kattavuus}} %</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">ILP tarve: {{user.pumppu|pumppu_kpl}} kpl</div>
+                <div class="col-sm-4"></div>
+            </div>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <h4>IVLP: Energialaskelmat:</h4>
+        <div class="row">
+            <div class="col-sm-4">LP tuotto: {{user|LPtuotto}} kWh/a</div>
+            <div class="col-sm-4">Lisätarve: {{user|QlisaTila}} kWh/a</div>
+            <div class="col-sm-4">Lisä Lkv: {{user|QlisaLkv}} kWh/a</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">-</div>
+            <div class="col-sm-4">-</div>
+            <div class="col-sm-4">-</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">Energia kulu: {{user|Qtila}} kWh/a</div>
+            <div class="col-sm-4">Qlkv: {{user|Qlkv}} kWh/m<sup>2</sup>/a</div>
+            <div class="col-sm-4"><a class="btn" href="{% url 'mete_profile' %}" role="button">Energiakulutustieto</a></div>
+        </div>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <h4>MLP: Energialaskelmat:</h4>
+        <div class="row">
+            <div class="col-sm-4">-</div>
+            <div class="col-sm-4">-</div>
+            <div class="col-sm-4">-</div>
+        </div>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+
+            <a class="btn btn-outline-primary" href="{% url 'edit-calc3' %}" role="button">Päivitä lähtötiedot</a>
+        {% else %}
+            <a class="btn btn-outline-primary" href="{% url 'edit-calc3' %}" role="button">Päivitä tietosi</a>
+        {% endif %}
+    </div>
+</article>
+
+{% endblock content %}

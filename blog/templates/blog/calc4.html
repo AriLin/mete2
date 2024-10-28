@@ -1,0 +1,41 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load calc_4 %}
+<h1>Valaisin mitoitus (calc4)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        {% if user.aurinko.user %}
+        <ul>
+            <li>Valasisimien määrä: {{user.valaisin.maara}} kpl</li>
+            <li>Yhden valaisimen teho: {{user.valaisin.teho}} W</li>
+            </ul>
+        {% else %}
+        Perustiedot puuttuu -> <a class="nav-item nav-link" href="{% url 'edit-calc4' %}">PÄIVITÄ TIETOSI</a>
+            {% endif %}
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        {% if user.valaisin.user %}
+            <h4>Energialaskelmat:</h4>
+            <a class="btn btn-outline-primary" href="{% url 'edit-calc4' %}" role="button">Päivitä tietosi</a>
+        {% else %}
+            <a class="btn btn-outline-primary" href="{% url 'edit-calc4' %}" role="button">Päivitä tietosi</a>
+        {% endif %}
+    </div>
+</article>
+
+{% endblock content %}

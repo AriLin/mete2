@@ -1,0 +1,85 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load calc_2 %}
+<h1>Aurinkopaneeli mitoitus (calc2)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+        {% if user.aurinko.user %}
+        <h4>Perustiedot:</h4>
+        <div class="row">
+            <div class="col-sm-4">Paneelin ala: {{user.aurinko.paneelin_ala}} m<sup>2</sup></div>
+            <div class="col-sm-4">Paneelin teho: {{user.aurinko.paneeli_teho}} kWp</div>
+            <div class="col-sm-4">Tehon korjauskerroin: {{user.aurinko.korjauskerroin}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">Tavoiteteho:{{user.aurinko.tavoite_teho }} kWh</div>
+            <div class="col-sm-4">Huoltokulut: {{user.aurinko.huoltokulut }} €</div>
+            <div class="col-sm-4">Ulosmynti:{{user.aurinko.myyntihinta }} snt/kWh</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">Alue: {{user.profile.alue}}</div>
+            <div class="col-sm-4"> </div>
+            <div class="col-sm-4"> </div>
+        </div>
+          <h4>Investointitiedot:</h4>
+          <div class="row">
+            <div class="col-sm-4">Laina: {{user.aurinko.lainamaara }} €</div>
+            <div class="col-sm-4">Laina: {{user.aurinko.lainaprosentti }} %</div>
+            <div class="col-sm-4">Tuki: {{user.aurinko.tukiprosentti }} %</div>
+          </div>
+          <br>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <div class="row"> <h4>Kuukausittainen sähkön kulutus (oma tuotanto)</h4>
+        </div>
+      <div class="row">
+            <div class="col-sm-2">Tammi:<br> {{user.aurinko.tammi}} ({{user | kk_tuotanto:1 }}) kWh</div>
+            <div class="col-sm-2">Helmi:<br> {{user.aurinko.helmi}} ({{user | kk_tuotanto:2 }}) kWh</div>
+            <div class="col-sm-2">Maalis:<br> {{user.aurinko.maalis}} ({{user | kk_tuotanto:3 }}) kWh</div>
+            <div class="col-sm-2">Huhti:<br> {{user.aurinko.huhti}} ({{user | kk_tuotanto:4 }}) kWh</div>
+            <div class="col-sm-2">Touko:<br> {{user.aurinko.touko }} ({{user | kk_tuotanto:5 }}) kWh</div>
+            <div class="col-sm-2">Kesä:<br> {{user.aurinko.kesa }} ({{user | kk_tuotanto:6 }}) kWh</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">Heinä:<br> {{user.aurinko.heina }} ({{user | kk_tuotanto:7 }}) kWh</div>
+            <div class="col-sm-2">Elo:<br> {{user.aurinko.elo }} ({{user | kk_tuotanto:8 }}) kWh</div>
+            <div class="col-sm-2">Syys:<br> {{user.aurinko.syys }} ({{user | kk_tuotanto:9 }}) kWh</div>
+            <div class="col-sm-2">Loka:<br> {{user.aurinko.loka }} ({{user | kk_tuotanto:10 }}) kWh</div>
+            <div class="col-sm-2">Marras:<br> {{user.aurinko.marras }} ({{user | kk_tuotanto:11 }}) kWh</div>
+            <div class="col-sm-2">Joulu:<br> {{user.aurinko.joulu }} ({{user | kk_tuotanto:12 }}) kWh</div>
+          </div>
+{% else %}
+        Perustiedot puuttuu -> <a class="nav-item nav-link" href="{% url 'edit-calc2' %}">PÄIVITÄ TIETOSI</a>
+            {% endif %}
+        {% if user.aurinko.user %}
+            <h4>Energialaskelmat:</h4>
+            <div class="row">
+                <div class="col-sm-4">Kennoston ala: {{user.aurinko|kennostokoko}} m<sup>2</sup></div>
+                <div class="col-sm-4">Vuosituotto: {{user|tuotanto}} kWh</div>
+                <div class="col-sm-4">Vuosikulutus: {{user|kulutus}} kWh</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">Ylijäämä: {{user|ylijaama}} %</div>
+            </div>
+
+            <a class="btn btn-outline-primary" href="{% url 'edit-calc2' %}" role="button">Päivitä tietosi</a>
+        {% else %}
+            <a class="nav-item nav-link" href="{% url 'edit-calc2' %}">PÄIVITÄ TIETOSI</a>>
+        {% endif %}
+            
+    </div>
+</article>
+
+{% endblock content %}

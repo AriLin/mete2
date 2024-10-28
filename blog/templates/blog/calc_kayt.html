@@ -1,0 +1,121 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load Laskuri_4 %}
+{% load calc_1 %}
+<h1>Rakennuksen käyttöajat (calc_kayt)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+        <img src="/mete/media/Talo1.jpg" alt="Example house" style="float:right">
+        <table cellpadding="5">
+            <caption style ="caption-side: top;">
+                Values modified: {{ user.profile.date_modified }} <br>
+                <a href="{% url 'def-calc_kayt_edit' %}"> [Change Käyttöaika BASE values]</a>
+                <p></p>            
+            </caption>
+            <tr>
+                <th colspan="2">Käyttäjän valinnat</th>
+            </tr>
+            <tr>
+                <th>Kuluttajalaite h / vrk</th>
+                <th>Kuluttajalaite vrk / vko</th>
+            </tr>
+            <tr>
+                <td>{{ user.profile.kul_h_pv }} h</td>
+                <td>{{ user.profile.kul_pv_vko }} vrk</td>
+            </tr>
+            <tr>
+                <th>Valasitus h / vrk</th>
+                <th>Valaistus vrk / vko</th>
+            </tr>
+            <tr>
+                <td>{{ user.profile.val_h_pv }} h</td>
+                <td>{{ user.profile.val_pv_vko}} vrk</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table cellpadding="5" width = "100%">
+                        <tr>
+                            <th colspan="2">Laskurin käyttämät oletusarvot</th>
+                        </tr>
+                        <tr>
+                            <td style = "text-align: right">Kuluttajalaitteiden ominaisteho:<br>
+                                Valaistuksen ominaisteho:
+                            </td>
+                            <td style = "text-align: left">{{ user.profile | KL_ominaisteho }} W/m<sup>2</sup><br>
+                                {{ user.profile | Valaistus_ominaisteho }} W/m<sup>2</sup>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        <table cellpadding="5" align="center">
+            <tr>
+            <th colspan="2"> Käyttöaikojen välitulokset </th>
+            </tr>
+            <tr>
+            <td style = "text-align: right"> Kuluttajalaitteiden teho:<br>
+                Kuluttajalaitteiden energia:<br>
+                Valaistuksen teho:<br>
+                Valaistuksen energia:
+            </td>
+            <td style = "text-align: left">{{ user.profile | KL_teho }} W <br>
+                {{ user.profile | KL_energia }} kWh/a <br>
+                {{ user.profile | Valaistus_teho }} W <br>
+                {{ user.profile | Valaistus_energia }} kWh/a 
+            </td>
+            </tr>
+
+        </table>
+    </div>
+</article>
+<!--
+<article class="media content-section">
+    <div class="media-body">
+        <h4>Energialaskelmat:</h4>
+        <table style="border:hidden;">
+            <tr><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Kokonaiskulutukset</b>
+                    </caption>            
+                        <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus ilman LTO: {{user.profile | kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi: {{user.profile | performanssi}}kWh/a/m<sup>2</sup></td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus LTOn kanssa: {{user.profile | lto_kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi:  {{user.profile | performanssi2}}kWh/a/m<sup>2</sup></td></tr>
+                </table>
+            </td><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Ergiakuormat</b>
+                    </caption>            
+                        <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ulkoseinä:</td><td style="border:hidden;text-align: right;">{{user.profile | ulkoseina}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Yläpohja;</td><td style="border:hidden;text-align: right;">{{user.profile | yläpohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Alapohja:</td><td style="border:hidden;text-align: right;">{{user.profile | alapohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ikkunat:</td><td style="border:hidden;text-align: right;">{{user.profile | ikkunat}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ovet:</td><td style="border:hidden;text-align: right;">{{user.profile | ovet}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">  = Vaippa:</td><td style="border:hidden;text-align: right;">{{user.profile | kaikki}}</td><td>kWh/a</td></tr>
+                <tr><td>-</td><td>-</td><td>-</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Aurinkosäteily:</td><td style="border:hidden;text-align: right;">{{user.profile | auringon_sateily}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämpö ihmisistä:</td><td style="border:hidden;text-align: right;">{{user.profile | ihmislampo}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämmön  nettotarve:</td><td style="border:hidden;text-align: right;">{{user.profile | lampoenergia}}</td><td>kWh/a</td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+</article>
+-->
+{% endblock content %}

@@ -1,0 +1,99 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load Laskuri %}
+{% load calc_1 %}
+<h1>Yhteenveto (calc_yht)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+        <table  cellpadding="5">
+            <tr>
+                <td>
+                <table cellpadding="5">
+                    <th colspan="2">
+                        <b>Energiakulutustiedot</b>
+                    </th>            
+                    <tr>
+                        <td style="text-align: right;"> Kuluttajalaitteet</td><td> <!--EE83-->{{ user.profile | Laitteet }}&nbsp;kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Valaistus</td><td><!--EE84--> {{ user.profile | Valaistus }}&nbsp;kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Ilmanvaihdon&nbsp;sähkönkulutus</td><td> <!--EE85-->{{ user.profile | IV_sahko }}&nbsp;kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Lämpimän&nbsp;käyttöveden lämmitys</td><td><!--EE86-->{{ user.profile | LKV_energia }}&nbsp;kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Lämpimän&nbsp;käyttöveden siirto</td><td><!--EE87-->{{ user.profile | LKV_siirtoenergia}}&nbsp;kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Lämpimän&nbsp;käyttöveden varastointi</td><td><!--EE88-->{{ user.profile | LKV_varastointi}} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Ilmanvaihdon&nbsp;lämmitys</td><td><!--EE89-->{{ user.profile | IV_lammitys}} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Rakennusvaipan&nbsp;johtuminen</td><td><!--EE90--> {{ user.profile | Vaippa_johtuminen}} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Rakennuksen&nbsp;vuotoilman lämmitys</td><td><!--EE91--> {{ user.profile | Vuotoilma_lammitys}} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Tuloilman lämmitys</td><td><!--EE92-->{{ user.profile | Tuloilma_lammitys}} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Tilojen lämmitys</td><td> <!--EE93-->{{user.profile  | Tilojen_lammitys }} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Lämpökuormat</td><td> <!--EE94-->{{user.profile  | Lampokuormat }} kWh/a</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"> Tilojen&nbsp;nettolämmitysenergia</td><td><!--EE95-->{{user.profile  | Tilojen_nettolammitys }} kWh/a</td>
+                    </tr>
+                </table>
+                </td>
+            </tr></table>
+    </div>
+    <img src="/mete/media/Talo1.jpg" alt="Example house" style="float:right">
+</article>
+<article class="media content-section">
+    <div>
+        <table cellpadding="5">
+            <tr colspan="3" style="border: none;">
+                <td>
+                <table cellpadding="5">
+                  <th colspan="2">Ostoenergia</th>            
+                    <tr ><td style="text-align: right;">Yhteensä</td><td style="text-align: right;"><!--EC111-->{{user.profile | Osto_yht }} kWh/a</td></tr>
+                    <tr ><td style="text-align: right;">Tilojen lämmitys</td><td style="text-align: right;"><!--EC114-->{{user.profile | Tilat_osto}} kWh/a</td></tr>
+                    <tr ><td style="text-align: right;">Lämmin käyttövesi</td><td style="text-align: right;"><!--EC118 EC119-->{{user.profile | LKV_osto}} kWh/a</td></tr>
+                    <tr ><td style="text-align: right;">Tuloilman lämmitys</td><td style="text-align: right;"><!--EC122-->{{user.profile | Tuloilma_lammitys}} kWh/a</td></tr>
+                    <tr ><td style="text-align: right;">Ilmanvaihtojärjestelmä</td><td style="text-align: right;"><!--EC126-->{{user.profile | IV_laitteet}} kWh/a</td></tr>
+                    <tr ><td style="text-align: right;">Kuluttajaitteet ja valaistus</td><td style="text-align: right;"><!--EC129 EC130-->{{user.profile  | Val_Lait }} kWh/a</td></tr>
+                </table>
+                </td>
+                <td></td>
+                <td style="vertical-align: top;">
+                    <table cellpadding="5">
+                        <th colspan="2">Laskurin oletusarvot energiakertoimille</th>            
+                        <tr ><td style="text-align: right;">Sähkö</td><td style="text-align: right;"> 1,2 </td></tr>
+                        <tr ><td style="text-align: right;">Kaukolämpö</td><td style="text-align: right;"> 0,5 </td></tr>
+                        <tr ><td style="text-align: right;">Fossiiliset polttoaineet</td><td style="text-align: right;"> 1 </td></tr>
+                        <tr ><td style="text-align: right;">Uusiutuvat polttoaineet</td><td style="text-align: right;"> 0,5 </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</article>
+
+{% endblock content %}

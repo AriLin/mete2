@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    {% if title %}
+        <title>Mete2 - {{ title }}</title>
+    {% else %}
+        <title>Mete2</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <!-- Top navigation bar-->
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="https://www.ely-keskus.fi/euroopan-maaseuturahasto" target="_blank">
+            <img src="https://www.hamk.fi/wp-content/uploads/2022/08/lippu_ja_tunnuslause-300x47-1.jpg" alt="EU logo" width = "230px"> </a>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog-home' %}">Etusivu</a>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Energialaskenta</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'def-calc' %}">Perustiedot</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'def-calc_rak' %}">Rakennusosat</a>
+                  <a class="dropdown-item" href="{% url 'def-calc_lam' %}">Tilojen lämmitys</a>
+                    <a class="dropdown-item" href="{% url 'def-calc_iv' %}">Ilmanvaihto</a>
+                    <a class="dropdown-item" href="{% url 'def-calc_lkv' %}">Lämmin käyttövesi</a>
+                    <a class="dropdown-item" href="{% url 'def-calc_kayt' %}">Rakennuskäyttö</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'def-calc_yht' %}">Yhteenveto</a>
+                </div>
+                </li>
+<!--              <a class="nav-link" href="{% url 'def-calc2' %}">Aurinkosähkö</a>
+                <a class="nav-link" href="{% url 'def-calc3' %}">Lämpöpumput</a>
+                <a class="nav-link" href="{% url 'def-calc4' %}">LED</a> -->
+              {% endif %}
+              <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+            </ul>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+                <a class="nav-item nav-link" href="{% url 'profile' %}"> Profile</a>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Logout
+                  </button>
+                </form>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              {% endif %}
+              </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Lower navbar dedicated for cooperation logos-->
+      <nav class="navbar navbar-expand-md navbar-light bg-light fixed-bottom">
+        <div class="container">
+          <a class="navbar-brand" href="https://www.maaseudunmete.fi/" target="_blank">
+            <img src="https://www.maaseudunmete.fi/wp-content/uploads/2021/02/l.png" alt="METE logo" width = "180px"> </a>
+          <a class="navbar-brand" href="https://lab.fi/fi/tutkimus-kehitys/tki-projektit" target="_blank">
+            <img src="https://lab.fi/themes/custom/lab/lab-logo.svg" alt="LAB logo" width="180px"></a>
+          <a class="navbar-brand" href="https://www.hamk.fi/projektit/maaseudun-palveluyritysten-vahahiiliset-energiaratkaisut-mete2/" target="_blank">
+            <img src="https://shibbo.hamk.fi/shibboleth/images/placeholder-logo.png" alt="HAMK logo" width = "130px" ></a>
+        </div>
+      </nav>
+    </header>
+<!-- Page content -->
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-16">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+<!--- side content bar removed 
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Our Sponsors</h3>
+            <p class='text-muted'>Want your logo here? <br>Contact: <a href = "mailto: mika.keski-luopa@lab.fi?subject=Mete-app">Mika.Keski-Luopa(at)lab.fi</a>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light"><a  class="nav-item nav-link" href="https://lab.fi/fi/tutkimus-kehitys/tki-projektit" target="_blank">
+                  <img src="https://lab.fi/themes/custom/lab/lab-logo.svg" alt="LAB logo" width = "70%"></a>
+                </li>
+                <li class="list-group-item list-group-item-light"><a  class="nav-item nav-link" href="https://www.hamk.fi/tutkimus/energiatehokkuus/" target="_blank">
+                  <img src="https://shibbo.hamk.fi/shibboleth/images/placeholder-logo.png" alt="HAMK logo" width = "80%" ></a>
+                </a></li>
+                <li class="list-group-item list-group-item-light"><a  class="nav-item nav-link" href="https://www.ely-keskus.fi/euroopan-maaseuturahasto" target="_blank">
+                  <img src="https://www.maaseudunmete.fi/wp-content/uploads/2021/02/EU-maaseutu-copy.png" alt="EU logo" width = "90%" ></a>
+                </a></li>
+                <li class="list-group-item list-group-item-light">etc</li>
+                <li class="list-group-item list-group-item-light"><a  class="nav-item nav-link" href="https://www.maaseudunmete.fi/julkaisut/" target="_blank">
+                  <img src="https://www.maaseudunmete.fi/wp-content/uploads/2021/03/AdobeStock_240445429_JPG8.jpg" alt="Mete-Info" width =60% height=50px> METE julk</a>
+                </li>
+                <li class="list-group-item list-group-item-light"><a  class="nav-item nav-link" href="https://www.maaseudunmete.fi/infovideot/" target="_blank">
+                  <img src="https://www.maaseudunmete.fi/wp-content/uploads/2021/08/ISS_12903_16747-2000x1000.jpg" alt="Mete-Info" width =60%> METE info</a>
+                </li>
+              </ul>
+            </p>
+          </div>
+        </div> --->
+      </div>
+      <p>
+        <br><br> <!-- fixing the bottom logo banner page cover-->
+      </p>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

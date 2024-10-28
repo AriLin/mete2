@@ -1,0 +1,146 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load Laskuri %}
+{% load calc_1 %}
+<h1>Rakennuksen osat (calc_rak)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+ <article class="media content-section">
+    <div class="media-body">
+        <table cellpadding="5">
+            <caption style ="caption-side: top;">
+                Values modified: {{ user.profile.date_modified }} <br>
+                <a href="{% url 'mete_asunto' %}"> [Muuta käyttäjän valinta-arvoja]</a>
+                <p></p>            
+            </caption>
+            <tr>
+                <th colspan="2">Käyttäjän valinnat</th>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Alue:</td>
+                <td style = "text-align: left">{{ user.profile.alue }}</td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Käyttötarkoitus:</td>
+                <td style = "text-align: left">{{ user.profile.kayttotarkoitus | kayttotarkoitus_ }}</td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Luvitettu:</td>
+                <td style = "text-align: left">{{ user.profile.rakennusvuosi | lupavuosi_ }}</td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Kerrosmäärä:</td>
+                <td style = "text-align: left">{{ user.profile.kerrosmaara }} krs</td>
+            </tr>
+            <tr>
+                <td style = "text-align: right"> Alapohja:</td>
+                <td style = "text-align: left">{{ user.profile.pinta_ala }} m<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Yläpohja:</td>
+                <td style = "text-align: left">{{ user.profile.yläpohja_ala }} m<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Seinät:</td>
+                <td style = "text-align: left">{{ user.profile.seinä_ala }} m<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Ikkunat:</td>
+                <td style = "text-align: left">{{ user.profile.ikkuna_ala }} m<sup>2</sup></td>
+            </tr>
+            <tr>
+                <td style = "text-align: right">Ovet:</td>
+                <td style = "text-align: left">{{ user.profile.ovet_ala }} m<sup>2</sup></td>
+            </tr>
+                <td colspan="2">
+                    <table cellpadding="5">
+                        <tr>
+                            <th colspan="2">Laskurin oletusarvot</th>
+                        </tr>
+                        <tr>
+                            <td style = "text-align: right;">
+                                Rakennuksen vaippa:<br>
+                                Rakennuksen tilavuus:<br>
+                                Alapohjan lämpötila:<br>
+                                Ilmanvuotoluku q50<br>
+                                Vuotoluvun kerroin:<br>
+                                Lämpökapasiteetti
+                            </td>
+                            <td style="text-align: left;">
+                                {{ user.profile | Ulkovaippa }}  m<sup>2</sup><br>
+                                {{ user.profile | Tilavuus }}  m<sup>3</sup><br>
+                                5 °C<br>
+                                {{ user.profile.rakennusvuosi | Vuotoluku }}<br>
+                                {{ user.profile.kerrosmaara | Vuotokerroin }}<br>
+                                {{ user.profile.kayttotarkoitus | Lampokapasiteetti }}
+                            </td>
+                        </tr>
+                    </table>
+                            </td>
+            </tr>
+        </table>
+    </div>
+    <img src="/mete/media/Talo1.jpg" alt="Example house" style="float:right">
+    </article>
+    <article class="media content-section">
+        <table cellpadding="5" align="center">
+            <tr>
+                <th colspan="7">Laskurin antama välitulos</th>
+            </tr>
+            <tr>
+                <th>Tilojen lämmityksen energia</th>
+                <th>Ilmanvaihdon energia</th>
+                <th>Lämpimän käyttöveden energia</th>
+            </tr>
+            <tr>
+                <td><!-- --> {{ user.profile | Tilojen_lammitys }} kWh/a </td>
+                <td><!-- --> {{ user.profile | IV_energia }} kWh/a </td>
+                <td><!--EE86+EE87+EE88 --> {{ user.profile | LKV_energia }} kWh/a </td>
+            </tr>
+        </table>
+    </div>
+</article>
+<!--
+<article class="media content-section">
+    <div class="media-body">
+        <h4>Energialaskelmat:</h4>
+        <table style="border:hidden;">
+            <tr><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Kokonaiskulutukset</b>
+                    </caption>            
+                        <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus ilman LTO: {{user.profile | kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi: {{user.profile | performanssi}}kWh/a/m<sup>2</sup></td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus LTOn kanssa: {{user.profile | lto_kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi:  {{user.profile | performanssi2}}kWh/a/m<sup>2</sup></td></tr>
+                </table>
+            </td><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Ergiakuormat</b>
+                    </caption>            
+                        <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ulkoseinä:</td><td style="border:hidden;text-align: right;">{{user.profile | ulkoseina}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Yläpohja;</td><td style="border:hidden;text-align: right;">{{user.profile | yläpohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Alapohja:</td><td style="border:hidden;text-align: right;">{{user.profile | alapohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ikkunat:</td><td style="border:hidden;text-align: right;">{{user.profile | ikkunat}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ovet:</td><td style="border:hidden;text-align: right;">{{user.profile | ovet}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">  = Vaippa:</td><td style="border:hidden;text-align: right;">{{user.profile | kaikki}}</td><td>kWh/a</td></tr>
+                <tr><td>-</td><td>-</td><td>-</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Aurinkosäteily:</td><td style="border:hidden;text-align: right;">{{user.profile | auringon_sateily}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämpö ihmisistä:</td><td style="border:hidden;text-align: right;">{{user.profile | ihmislampo}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämmön  nettotarve:</td><td style="border:hidden;text-align: right;">{{user.profile | lampoenergia}}</td><td>kWh/a</td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+</article>
+-->
+{% endblock content %}

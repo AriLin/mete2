@@ -1,0 +1,54 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <h1>Aurinkolaskutiedot</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Laskentaan tarvittavat lähtötiedot</legend>
+                <input type="hidden" id="id_user" name="user" value={{user.aurinko.user_id}}>
+                <div class="row">
+                    <div class="col-sm-4">{{form.paneelin_ala|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.paneeli_teho|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.korjauskerroin|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.lainamaara|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.lainaprosentti|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.tukiprosentti|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.huoltokulut|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.myyntihinta|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.tavoite_teho|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.tammi|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.helmi|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.maalis|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.huhti|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.touko|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.kesa|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.heina|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.elo|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.syys|as_crispy_field }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">{{form.loka|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.marras|as_crispy_field }}</div>
+                    <div class="col-sm-4">{{form.joulu|as_crispy_field }}</div>
+                  </div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" name="Aurinko" value="POST">Talleta</button>
+                <button class="btn btn-warning" type="submit" name="Cancel" value="CANC">Peruuta</button>
+                <button class="btn btn-outline-secondary float-right" type="button" name="Muokkaa" value="EDIT">Dummy</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

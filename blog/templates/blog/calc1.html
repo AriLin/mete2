@@ -1,0 +1,172 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load Laskuri %}
+{% load calc_1 %}
+<h1>Perustiedot (calc1)</h1>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<article class="media content-section">
+    <div class="media-body">
+        <img src="/mete/media/Talo1.jpg" alt="Example house" style="float:right">
+        <table cellpadding="5">
+            <caption style ="caption-side: top;">
+                Base values modified: {{ user.profile.date_modified }} <br>
+                <a href="{% url 'mete_profile' %}">[Change Mete calculation BASE values] </a><br>
+                <p></p>            
+            </caption>
+            <tr>
+                <th colspan="4">Rakennuksen perustiedot</th>
+            </tr>
+            <tr>
+                <th>Alue</th>
+                <th>Käyttötarkoitus</th>
+                <th>Luvitettu</th>
+                <th>Kerrosmaara</th>
+            </tr>
+            <tr>
+                <td>{{ user.profile.alue | meteAreas_ }} </td>
+                <td>{{ user.profile.kayttotarkoitus | kayttotarkoitus_ }}</td>
+                <td>{{ user.profile.rakennusvuosi | lupavuosi_ }} </td>
+                <td>{{ user.profile.kerrosmaara }} kpl</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table width="100%">
+                        <th colspan="2">Ulkovaipan pinta-alat</th>
+                        <tr>
+                            <td>Alapohja</td>
+                            <td>{{ user.profile.pinta_ala }} m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Yläpohja</td>
+                            <td>{{ user.profile.yläpohja_ala }} m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Seinät</td>
+                            <td>{{ user.profile.seinä_ala }} m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Ikkunat</td>
+                            <td>{{ user.profile.ikkuna_ala }} m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Ovet</td>
+                            <td>{{ user.profile.ovet_ala }} m<sup>2</sup></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</article>
+<article  class="media content-section">
+        <table cellpadding="5">
+            <tr>
+                <th colspan="4">Lämmöntuotannon perustietiedot</th>
+            </tr>
+            <tr>
+                <th>Lämmöntuotantotapa</th>
+                <th>Lämmönjakotapa</th>
+                <th>Tulisijat</th>
+                <th>Ilmalämpöpumput</th>
+                <th>Sisälämpötila</th>
+            </tr>
+            <tr>
+                <td>{{ user.profile.lammontuotto | l_tuotto_ }} </td>
+                <td>{{ user.profile.lammonjako | l_jako_ }} </td>
+                <td>{{ user.profile.varaavatulisija | mete_bool_}} ({{ user.profile.tulisija_lkm }}) </td>
+                <td>{{ user.profile.ilmalampopumppu | mete_bool_}}</td>
+                <td>{{ user.profile.sisalampo}} °</td> 
+            </tr>
+            <tr>
+                <th colspan="3">Ilmanvaihdon perustiedot</th>
+            </tr>
+                <th>Ilmanvaihdon toteutus</th>
+                <th>Onko lämmön talteenottoa?</th>
+                <th>Lämmöntuotannon hyötysuhde</th>
+            <tr>
+                <td>{{ user.profile.iv_tapa | ilmanvaihto_ }} </td> 
+                <td>{{ user.profile.lto | mete_bool_}}</td>
+                <td>{{ user.profile.rakennusvuosi | Lto_h }}</td>
+            </tr>
+            <tr>
+                <th colspan="5">Lämpimän käyttöveden perustiedot</th>
+            </tr>
+            <tr>
+                <th>Lämmitystapa</th>
+                <th>Kiertopumppu</th>
+                <th>Kierron eristys</th>
+                <th>Vesivaraajan tilavuus</th>
+                <th>Varaajan eristys</th>
+            </tr>
+            <tr>
+                <td>{{ user.profile.lkv_lammitys | lkv_heat_}} </td>
+                <td>{{ user.profile.lkv_kierto | mete_bool_}}</td>
+                <td>{{ user.profile.lkv_kiertoeriste | putkieriste_ }}</td>
+                <td>{{ user.profile.lkv_tila | lkv_tila_}}</td>
+                <td>{{ user.profile.lkvputken_eristys | LKVeriste_ }} </td> 
+                <tr>
+        </table>
+    <br>
+</article>
+<article class="media content-section">
+    <table cellpadding="5">
+        <tr>
+            <th colspan="3">Energiankulutustiedot</th>
+        </tr>
+        <tr>
+            <th>Sähköenergia määrä vuodessa</th>
+            <th>Lämmitysenergian määrä vuodessa</th>
+            <th>Lämpimän käyttöveden lämmitys vuodessa</th>
+        </tr>
+        <tr>
+            <td>{{ user.profile.sahkokWh}} kWh/a</td>
+            <td>{{ user.profile.lampokWh}} kWh/a</td>
+            <td>{{ user.profile.vesikWh}} kWh/a</td> 
+<!--            <td>{{ user.profile.lampopumppu | mete_bool_ }}</td> -->
+        </tr>
+     </table> 
+</article>
+<!-- <article class="media content-section">
+    <div class="media-body">
+        <h4>Energialaskelmat:</h4>
+        <table style="border:hidden;">
+            <tr><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Kokonaiskulutukset</b>
+                    </caption>            
+                        <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus ilman LTO: {{user.profile | kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi: {{user.profile | performanssi}}kWh/a/m<sup>2</sup></td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Kokonaiskulutus LTOn kanssa: {{user.profile | lto_kulutus}} kWh/a</td></tr>
+                <tr><td style="border:hidden;text-align: right;"> Performanssi:  {{user.profile | performanssi2}}kWh/a/m<sup>2</sup></td></tr>
+                </table>
+            </td><td>
+                <table style="border:hidden;">
+                    <caption style ="caption-side: top;">
+                        <b>Ergiakuormat</b>
+                    </caption>            
+                        <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ulkoseinä:</td><td style="border:hidden;text-align: right;">{{user.profile | ulkoseina}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Yläpohja;</td><td style="border:hidden;text-align: right;">{{user.profile | yläpohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Alapohja:</td><td style="border:hidden;text-align: right;">{{user.profile | alapohja}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ikkunat:</td><td style="border:hidden;text-align: right;">{{user.profile | ikkunat}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Ovet:</td><td style="border:hidden;text-align: right;">{{user.profile | ovet}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">  = Vaippa:</td><td style="border:hidden;text-align: right;">{{user.profile | kaikki}}</td><td>kWh/a</td></tr>
+                <tr><td>-</td><td>-</td><td>-</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Aurinkosäteily:</td><td style="border:hidden;text-align: right;">{{user.profile | auringon_sateily}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämpö ihmisistä:</td><td style="border:hidden;text-align: right;">{{user.profile | ihmislampo}}</td><td>kWh/a</td></tr>
+                <tr style="border:hidden;"><td style="border:hidden;text-align: right;">Lämmön  nettotarve:</td><td style="border:hidden;text-align: right;">{{user.profile | lampoenergia}}</td><td>kWh/a</td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+</article>
+-->
+{% endblock content %}
