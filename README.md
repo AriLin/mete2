@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/879629161.svg)](https://doi.org/10.5281/zenodo.14032874)
+
 This repository contains files edited for METE2-project energy calculators web-version "mete_project" based on Django framework.
 
 Calculation use template tags on various html-pages in users/ and blog/ template folders.
